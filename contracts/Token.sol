@@ -17,7 +17,12 @@ contract Token is ERC20Interface {
 
 	event Transfer(address indexed _from, address indexed _to, uint256 _value);
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
-    event Burn(address indexed burner, uint256 _value)
+    event Burn(address indexed burner, uint256 _value);
+
+    ///Constructs the token 
+    function Token(uint _totalSupply){
+    	tokenSupply = _totalSupply;
+    }
 
     /// @param _owner The address from which the balance will be retrieved
     /// @return The balance
