@@ -11,16 +11,19 @@ import './interfaces/ERC20Interface.sol';
 contract Token is ERC20Interface {
 
 	// total amount of tokens 
-	uint256 public totalSupply = 99999999999999; 
+	uint256 public totalSupply; 
 	mapping (address => uint256) balances; 
 	mapping (address => mapping (address => uint256)) allowed; 
+
+	event Transfer(address indexed _from, address indexed _to, uint256 _value);
+    event Approval(address indexed _owner, address indexed _spender, uint256 _value);
+    event Burn(address indexed burner, uint256 _value)
 
     /// @param _owner The address from which the balance will be retrieved
     /// @return The balance
     function balanceOf(address _owner) constant returns (uint256 balance){
     	return balances[owner];
     }
-
 
     /// @notice send `_value` token to `_to` from `msg.sender`
     /// @param _to The address of the recipient
@@ -33,7 +36,6 @@ contract Token is ERC20Interface {
     	Transfer(msg.sender, _to, _value);
     	return true; 
     }
-
 
     /// @notice send `_value` token to `_to` from `_from` on the condition it is approved by `_from`
     /// @param _from The address of the sender
@@ -69,7 +71,16 @@ contract Token is ERC20Interface {
     	return allowed[_owner][_spender];
     }
 
-    event Transfer(address indexed _from, address indexed _to, uint256 _value);
-    event Approval(address indexed _owner, address indexed _spender, uint256 _value);
+    // @dev Burns a specific amount of tokens 
+    // @param _value The amount of tokens to be burned 
+    function burn(uint256 _value public{}
+    	require(_value > 0);
+    	require(_value <= balance[msg.sender]);
+    	address burner = msg.sender; 
+    	balances[burner] -= _value;
+    	totalSupply -= _value; 
+    	Burn(burner, _value);
+
+    }
 }
 
