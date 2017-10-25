@@ -34,7 +34,7 @@ contract('TokenTest', function(accounts) {
 		it("supports 0 transfers", async function() {
 			assert(await token.transfer.call(accounts[1], 0, {from: owner}), 'zero-transfer has failed')
 		});
-		it("should above txn of 100 to accounts[1]", async function() {
+		it("should allow txn of 100 to accounts[1]", async function() {
 			await token.approve(accounts[1], 100, {from: owner})
     		const allowance = await token.allowance.call(owner, accounts[1])
     		assert.strictEqual(allowance.toNumber(), 100)
