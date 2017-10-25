@@ -22,7 +22,7 @@ contract('TokenTest', function(accounts) {
 
 	/* Tests for Token.sol */
 	describe('Tests for Token.sol', function() {
-		it("Creates a balance", async function() {
+		it("Checks for balance", async function() {
 			const balance = await token.balanceOf.call(owner);
 			assert.strictEqual(balance.toNumber(), 0);
 		});
