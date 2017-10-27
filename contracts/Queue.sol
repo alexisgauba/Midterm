@@ -103,7 +103,8 @@ contract Queue {
 	/* Places `addr` in the first empty position in the queue */
 	function enqueue(address addr) {
 		resize();
-		queue[elements++] = addr;
+		queue[elements] = addr;
+		elements += 1;
 		AddedClient(addr, now);
 	}
 }

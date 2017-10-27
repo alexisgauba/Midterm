@@ -4,7 +4,7 @@
 const Queue = artifacts.require("./Queue.sol");
 // YOUR CODE HERE
 
-contract('testTemplate', function(accounts) {
+contract('QueueTest', function(accounts) {
 	/* Define your constant variables and instantiate constantly changing 
 	 * ones
 	 */
@@ -39,6 +39,7 @@ contract('testTemplate', function(accounts) {
 			setTimeout(function() {alert('Ready to dequeue'), args.Time_Limit});
 			Q.dequeue();
 			assert.equal(Q.empty(), True, "Queue should be empty");
+			
 		});
 		// YOUR CODE HERE
 	});
