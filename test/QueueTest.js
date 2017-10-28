@@ -24,21 +24,29 @@ contract('QueueTest', function(accounts) {
 	 */
 	describe('Basic Functionality of Queue', function() {
 		it("Add and remove elements", async function() {
-			Q.enqueue(args.Alice);
-			assert.equal(Q.getFirst(), args.Alice, "Alice should be the first one on the queue1"); 
-			Q.enqueue(args.Bob);
-			assert.equal(Q.getFirst(), args.Alice, "Alice should be the first one on the queue2");
-			Q.enqueue(args.Mallory)
-			assert.equal(Q.getFirst(), args.Alice, "Alice should be the first one on the queue3");
-			setTimeout(function() {alert('Ready to dequeue'), args.Time_Limit});
-			Q.dequeue();
-			assert.equal(Q.getFirst(), args.Bob, "Bob should be the first one on the queue");
-			setTimeout(function() {alert('Ready to dequeue'), args.Time_Limit});
-			Q.dequeue();
-			assert.equal(Q.getFirst(), args.Mallory, "Mallory should be the first one on the queue");
-			setTimeout(function() {alert('Ready to dequeue'), args.Time_Limit});
-			Q.dequeue();
-			assert.equal(Q.empty(), True, "Queue should be empty");
+			
+			await Q.enqueue(args.Alice);
+			let var1 = await Q.getFirst();
+			assert.equal(var1, args.Alice, "Alice should be the first one on the queue1"); 
+			await Q.enqueue(args.Bob);
+			let var2 = await Q.getFirst();
+			assert.equal(var2, args.Alice, "Alice should be the first one on the queue2");
+			await Q.enqueue(args.Mallory)
+			let var3 = await Q.getFirst();
+			assert.equal(var3, args.Alice, "Alice should be the first one on the queue3");
+			//Crap
+			await Q.unlock();
+			await Q.dequeue();
+			let var4 = await Q.getFirst();
+			assert.equal(var4, args.Bob, "Bob should be the first one on the queue");
+			await Q.unlock();
+			await Q.dequeue();
+			let var5 = await Q.getFirst();
+			assert.equal(var5, args.Mallory, "Mallory should be the first one on the queue");
+			await Q.unlock();
+			await Q.dequeue();
+			let var6 = await Q.empty();
+			assert.equal(var6, true, "Queue should be empty");
 			
 		});
 		// YOUR CODE HERE

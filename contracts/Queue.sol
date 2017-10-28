@@ -11,11 +11,11 @@ contract Queue {
 	/* State variables */
 	uint8 size = 5;
 	uint8 elements; //size will be for the size of the whole array, elements for how much of it is filled
-	uint256 time_limit = 1 << 8; //time limit, equal to 2^8 = 256 
+	uint256 time_limit = 0; //time limit, equal to 2^8 = 256 
 	uint256 front_time;
 	// YOUR CODE HERE
 	address[] queue;
-	bool lock;
+	bool _lock;
 	/* Add events */
 	// YOUR CODE HERE
 	event AddedClient(address Client, uint256 timestamp);
@@ -25,7 +25,7 @@ contract Queue {
 	
 	function Queue () {
 		queue = new address[](size);
-		lock = false;
+		_lock = false;
 		elements = 0;
 	}
 	
@@ -59,6 +59,7 @@ contract Queue {
 	/* Returns the address of the person in the front of the queue */
 	function getFirst() constant returns(address) {
 		return queue[0];
+		//return 0x1234;
 	}
 	
 	/* Allows `msg.sender` to check their position in the queue */
@@ -76,21 +77,30 @@ contract Queue {
 	/* Allows anyone to expel the first person in line if their time
 	 * limit is up
 	 */
-	function checkTime() {
-		if (now - front_time >= time_limit) {
-			lock = false;
+	function checkTime(uint256 time) {
+		if (time - front_time >= time_limit) {
+			unlock();
 		} else {
-			lock = true;
+			lock();
 		}
+	}
+	
+	function lock() {
+		_lock = true;
+	}
+	
+	function unlock() {
+		_lock = false;
 	}
 	
 	/* Removes the first person in line; either when their time is up or when
 	 * they are done with their purchase
 	 */
 	function dequeue() {
+		        
 		assert(empty() == false);
-		checkTime();
-		if (!lock ) {
+		//checkTime();
+		if (!_lock ) {
 				for (uint i = 0; i < elements - 1; i++) {
 					queue[i] = queue[i + 1]; 
 				}
@@ -104,7 +114,12 @@ contract Queue {
 	function enqueue(address addr) {
 		resize();
 		queue[elements] = addr;
+		if (elements == 0) {
+			front_time = now;
+		}
 		elements += 1;
 		AddedClient(addr, now);
+		
 	}
 }
+
